@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Reset password · DeepReasoner{% endblock %}
+{% block auth_content %}
+<section class="auth-card compact-card">
+  <div class="auth-brand"><span class="brand-mark large">✦</span><div><strong>DeepReasoner</strong><small>Adaptive RAG · PDF intelligence</small></div></div>
+  <div class="auth-copy"><span class="eyebrow">Account recovery</span><h1>Reset your password</h1><p>Enter your email address and we will send a secure reset link.</p></div>
+  <form id="forgotForm" class="auth-form" novalidate>
+    <label class="field"><span>Email address</span><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+    <div id="forgotError" class="form-error" role="alert"></div>
+    <button class="button primary full" type="submit">Send reset link</button>
+  </form>
+  <p class="auth-switch"><a href="{{ url_for('login') }}">← Back to sign in</a></p>
+</section>
+{% endblock %}

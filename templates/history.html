@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}History · DeepReasoner{% endblock %}
+{% block page_title %}History{% endblock %}
+{% block content %}
+<section class="page-heading"><div><span class="eyebrow">Conversation archive</span><h1>Question history</h1><p>Search, review, and manage answers generated from your documents.</p></div><button id="clearHistory" class="button danger-outline" type="button">Clear all</button></section>
+<section class="history-toolbar panel"><div class="search-field"><span>⌕</span><input id="historySearch" type="search" placeholder="Search questions, answers, or routes…" aria-label="Search history" /></div><div class="toolbar-meta"><span id="historyCount">0 results</span><select id="historyFilter" aria-label="Filter by route"><option value="">All routes</option><option value="simple/factual">Simple</option><option value="explanatory">Explanatory</option><option value="complex/multi-hop">Multi-hop</option></select></div></section>
+<section id="historyList" class="history-list"><div class="empty-state"><span>↻</span><h3>No history yet</h3><p>Your previous questions and answers will appear here.</p><a href="{{ url_for('qa') }}" class="button secondary">Start a question</a></div></section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='history.js') }}" defer></script>{% endblock %}

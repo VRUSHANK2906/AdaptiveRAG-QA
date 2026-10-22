@@ -1,0 +1,13 @@
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const toastRegion=$('#toastRegion');
+const showToast=(message,title='Success',type='success')=>{const toast=document.createElement('div');toast.className=`toast ${type}`;toast.innerHTML=`<strong>${title}</strong><span>${message}</span><button type="button" aria-label="Dismiss">×</button>`;toast.querySelector('button').onclick=()=>toast.remove();toastRegion.appendChild(toast);setTimeout(()=>toast.remove(),4200)};
+const api=async(url,options={})=>{const response=await fetch(url,{credentials:'same-origin',headers:{'Content-Type':'application/json',...(options.headers||{})},...options});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'Something went wrong. Please try again.');return data};
+const setBusy=(button,loading,text='Working…')=>{if(!button)return;button.disabled=true;button.dataset.original=button.innerHTML;button.innerHTML=`<span class="loading-spinner"></span><span>${text}</span>`};
+const clearBusy=button=>{if(!button)return;button.disabled=false;if(button.dataset.original)button.innerHTML=button.dataset.original;delete button.dataset.original};
+const applyTheme=theme=>{const resolved=theme==='system'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):theme;document.documentElement.classList.toggle('dark',resolved==='dark');localStorage.setItem('rag-theme',theme);$$('.theme-toggle').forEach(btn=>btn.textContent=resolved==='dark'?'☀':'☾')};
+const currentTheme=localStorage.getItem('rag-theme')||'system';applyTheme(currentTheme);
+$$('.theme-toggle').forEach(btn=>btn.onclick=()=>applyTheme(document.documentElement.classList.contains('dark')?'light':'dark'));
+const menuButton=$('#menuButton'),sidebar=$('#sidebar');if(menuButton&&sidebar){menuButton.onclick=()=>{const open=sidebar.classList.toggle('open');menuButton.setAttribute('aria-expanded',String(open))};document.addEventListener('click',event=>{if(window.innerWidth<=760&&sidebar.classList.contains('open')&&!sidebar.contains(event.target)&&!menuButton.contains(event.target))sidebar.classList.remove('open')})}
+$$('.logout-btn').forEach(btn=>btn.onclick=async()=>{try{await api('/api/logout',{method:'POST'});location.href='/login'}catch{showToast('Unable to end the session.','Error','error')}});
+window.addEventListener('error',event=>{if(!event.filename?.includes('app.js'))showToast('A page error occurred. Please refresh and retry.','Error','error')});
+window.addEventListener('unhandledrejection',()=>showToast('The request could not be completed.','Error','error'));

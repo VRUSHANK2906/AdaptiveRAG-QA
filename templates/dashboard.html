@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · DeepReasoner{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block content %}
+<section class="page-heading"><div><span class="eyebrow">Your workspace</span><h1>Welcome back, {{ current_user.name }}.</h1><p>Manage your knowledge base and continue exploring your documents.</p></div><a href="{{ url_for('qa') }}" class="button primary">Ask a question <span>→</span></a></section>
+<section class="metric-grid">
+  <article class="metric-card"><span class="metric-icon blue">✦</span><div><small>Questions asked</small><strong>{{ stats.questions }}</strong><span>Across all history</span></div></article>
+  <article class="metric-card"><span class="metric-icon violet">▤</span><div><small>Documents uploaded</small><strong>{{ stats.documents }}</strong><span>Indexed in your library</span></div></article>
+  <article class="metric-card"><span class="metric-icon green">✓</span><div><small>Answer quality</small><strong>{% if stats.questions %}Ready{% else %}—{% endif %}</strong><span>Grounded in your sources</span></div></article>
+</section>
+<section class="dashboard-grid">
+  <article class="panel"><div class="panel-heading"><div><span class="panel-kicker">Recent activity</span><h2>Latest questions</h2></div><a href="{{ url_for('history') }}">View history →</a></div>{% if recent %}<div class="activity-list">{% for item in recent %}<div class="activity-item"><span class="activity-icon">✦</span><div><strong>{{ item.question }}</strong><p>{{ item.answer|truncate(150) }}</p><small>{{ item.created_at|replace('T',' ')|truncate(16) }} · {{ item.route }}</small></div><span class="score-badge">{{ item.confidence|round(2) }}</span></div>{% endfor %}</div>{% else %}<div class="empty-state"><span>✦</span><h3>No questions yet</h3><p>Your recent answers will appear here.</p><a href="{{ url_for('qa') }}" class="button secondary">Ask your first question</a></div>{% endif %}</article>
+  <article class="panel"><div class="panel-heading"><div><span class="panel-kicker">Quick actions</span><h2>Get started</h2></div></div><div class="quick-actions"><a href="{{ url_for('qa') }}" class="quick-action"><span class="quick-icon blue">✦</span><div><strong>Ask a Question</strong><small>Query your indexed documents</small></div><i>→</i></a><a href="{{ url_for('documents') }}" class="quick-action"><span class="quick-icon violet">↑</span><div><strong>Upload Document</strong><small>Add a new PDF to your library</small></div><i>→</i></a><a href="{{ url_for('history') }}" class="quick-action"><span class="quick-icon green">↻</span><div><strong>View History</strong><small>Search and revisit answers</small></div><i>→</i></a><a href="{{ url_for('profile') }}" class="quick-action"><span class="quick-icon orange">◉</span><div><strong>Profile</strong><small>Manage your account details</small></div><i>→</i></a></div></article>
+</section>
+{% endblock %}

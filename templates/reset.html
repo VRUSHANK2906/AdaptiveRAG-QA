@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Reset password · DeepReasoner{% endblock %}
+{% block auth_content %}
+<section class="auth-card compact-card">
+  <div class="auth-brand"><span class="brand-mark large">✦</span><div><strong>DeepReasoner</strong><small>Adaptive RAG · PDF intelligence</small></div></div>
+  {% if valid %}<div class="auth-copy"><span class="eyebrow">Secure recovery</span><h1>Choose a new password</h1><p>Your password must contain at least 8 characters, one uppercase letter, and one number.</p></div><form id="resetForm" class="auth-form" novalidate><input id="token" type="hidden" value="{{ token }}" /><label class="field"><span>New password</span><input id="password" type="password" autocomplete="new-password" minlength="8" required /></label><label class="field"><span>Confirm password</span><input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" required /></label><div id="resetError" class="form-error"></div><button class="button primary full" type="submit">Update password</button></form>{% else %}<div class="auth-copy"><span class="eyebrow">Recovery unavailable</span><h1>The reset link is invalid or expired.</h1><p>Please request a new password-reset link.</p></div><a class="button secondary full" href="{{ url_for('forgot_password') }}">Request another link</a>{% endif %}
+  <p class="auth-switch"><a href="{{ url_for('login') }}">← Back to sign in</a></p>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='reset.js') }}" defer></script>{% endblock %}

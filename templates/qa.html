@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Ask Question · DeepReasoner{% endblock %}
+{% block page_title %}Ask Question{% endblock %}
+{% block content %}
+<section class="page-heading compact"><div><span class="eyebrow">Evidence-first answers</span><h1>What do you want to understand?</h1><p>Upload a PDF, then ask a question and follow the document sources behind the answer.</p></div></section>
+<section class="qa-layout">
+  <div class="qa-main">
+    <article class="chat-panel">
+      <div class="chat-header"><div><span class="status-dot"></span><strong>DeepReasoner Assistant</strong><small>Grounded in your uploaded documents</small></div><div class="chat-header-actions"><button id="uploadTrigger" class="button secondary small" type="button">+ Upload PDF</button><button id="clearConversation" class="text-button" type="button">Clear conversation</button></div></div>
+      <div id="conversation" class="conversation" aria-live="polite">
+        <div id="welcomeMessage" class="welcome-message"><span class="welcome-icon">✦</span><h2>Ready when you are.</h2><p>Upload a PDF, then ask a question about its contents. Answers include adaptive retrieval details and cited sources.</p><div class="prompt-suggestions"><button type="button">Summarize the key findings</button><button type="button">Explain the proposed method</button><button type="button">Compare the results</button></div></div>
+      </div>
+      <form id="qaForm" class="qa-composer">
+        <textarea id="questionInput" rows="3" maxlength="2000" placeholder="Ask a question about your uploaded documents…" aria-label="Question" required></textarea>
+        <div class="composer-footer"><span><kbd>Enter</kbd> to send · <kbd>Shift</kbd> + <kbd>Enter</kbd> for a new line</span><button id="askButton" class="button primary" type="submit"><span>Ask question</span><span>→</span></button></div>
+      </form>
+      <div id="qaError" class="form-error" role="alert"></div>
+    </article>
+  </div>
+  <aside class="qa-sidebar"><article class="panel"><div class="panel-heading"><div><span class="panel-kicker">Current library</span><h2>Documents</h2></div><button id="uploadFromSidebar" class="text-button" type="button">Upload →</button></div><div id="librarySummary" class="library-summary"><span class="library-icon">▤</span><div><strong>Loading library…</strong><small>Upload documents to begin.</small></div></div></article><article class="panel"><div class="panel-heading"><div><span class="panel-kicker">Retrieval mode</span><h2>Adaptive routing</h2></div></div><div class="route-list"><div><span class="route-dot simple"></span><strong>Simple</strong><small>Quick factual lookup</small></div><div><span class="route-dot explanatory"></span><strong>Explanatory</strong><small>Deeper context retrieval</small></div><div><span class="route-dot complex"></span><strong>Multi-hop</strong><small>Expanded second pass</small></div></div></article></aside>
+</section>
+<div id="uploadModal" class="modal" hidden>
+  <div class="modal-backdrop" data-close-modal></div>
+  <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="uploadTitle">
+    <div class="modal-header"><div><span class="panel-kicker">Knowledge source</span><h2 id="uploadTitle">Upload documents</h2></div><button class="icon-button" type="button" data-close-modal aria-label="Close">×</button></div>
+    <form id="uploadForm">
+      <div id="uploadDropzone" class="upload-dropzone"><input id="documentFiles" type="file" accept="application/pdf,.pdf" multiple /><span class="upload-icon">↑</span><strong>Drop PDF files here</strong><small>or choose files from your computer</small><em>Maximum 50 MB per upload · PDF only</em></div>
+      <div id="uploadPreview" class="file-preview" hidden></div>
+      <div id="uploadError" class="form-error"></div>
+      <div class="modal-actions"><button class="button secondary" type="button" data-close-modal>Cancel</button><button id="uploadSubmit" class="button primary" type="submit">Index documents</button></div>
+    </form>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='qa.js') }}" defer></script><script src="{{ url_for('static', filename='qa-upload.js') }}" defer></script><style>{{ url_for('static', filename='qa-upload.css') }}</style>{% endblock %}

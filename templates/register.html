@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Create account · DeepReasoner{% endblock %}
+{% block auth_content %}
+<section class="auth-card">
+  <div class="auth-brand"><span class="brand-mark large">✦</span><div><strong>DeepReasoner</strong><small>Adaptive RAG · PDF intelligence</small></div></div>
+  <div class="auth-copy"><span class="eyebrow">Start your workspace</span><h1>Create your account</h1><p>Set up a private workspace for your documents and questions.</p></div>
+  <form id="registerForm" class="auth-form" novalidate>
+    <label class="field"><span>Full name</span><input id="name" name="name" type="text" autocomplete="name" minlength="2" maxlength="80" placeholder="Your name" required /></label>
+    <label class="field"><span>Email address</span><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+    <label class="field"><span>Password</span><span class="password-wrap"><input id="password" name="password" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" required /><button class="password-toggle" type="button" aria-label="Show password">Show</button></span></label>
+    <label class="field"><span>Confirm password</span><span class="password-wrap"><input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Repeat your password" required /><button class="password-toggle" type="button" aria-label="Show password">Show</button></span></label>
+    <div id="registerError" class="form-error" role="alert"></div>
+    <button class="button primary full" type="submit"><span>Create account</span><span>→</span></button>
+  </form>
+  <p class="auth-switch">Already have an account? <a href="{{ url_for('login') }}">Sign in</a></p>
+</section>
+<aside class="auth-visual"><div class="visual-orb"></div><div class="visual-content"><span class="visual-icon">✦</span><p class="eyebrow">Your private knowledge base</p><h2>Questions stay yours.</h2><p>Each account gets isolated document storage, private history, and secure session management.</p><div class="visual-list"><span><i>01</i> Secure account</span><span><i>02</i> Private document library</span><span><i>03</i> Persistent history</span></div></div></aside>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='register.js') }}" defer></script>{% endblock %}

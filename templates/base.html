@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f9fc" />
+  <title>{% block title %}Adaptive RAG QA{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  {% block head %}{% endblock %}
+</head>
+<body data-page="{{ page | default('') }}" data-user-name="{{ current_user.name if current_user else '' }}">
+  {% if current_user %}
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <span class="brand-mark">✦</span>
+        <span><strong>DeepReasoner</strong><small>Adaptive RAG</small></span>
+      </div>
+      <nav class="sidebar-nav" aria-label="Main navigation">
+        <a href="{{ url_for('dashboard') }}" class="nav-item" data-nav="dashboard"><span>⌂</span> Dashboard</a>
+        <a href="{{ url_for('qa') }}" class="nav-item" data-nav="qa"><span>✦</span> Ask Question</a>
+        <a href="{{ url_for('documents') }}" class="nav-item" data-nav="documents"><span>▤</span> Documents</a>
+        <a href="{{ url_for('history') }}" class="nav-item" data-nav="history"><span>↻</span> History</a>
+        <a href="{{ url_for('profile') }}" class="nav-item" data-nav="profile"><span>◉</span> Profile</a>
+        <a href="{{ url_for('settings') }}" class="nav-item" data-nav="settings"><span>⚙</span> Settings</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-chip">
+          <span class="avatar">{{ current_user.name[:1]|upper }}</span>
+          <span><strong>{{ current_user.name }}</strong><small>{{ current_user.email }}</small></span>
+        </div>
+        <button class="nav-item logout-btn" type="button"><span>↗</span> Logout</button>
+      </div>
+    </aside>
+    <div class="app-main">
+      <header class="topbar">
+        <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
+        <div class="topbar-title">
+          <span class="topbar-kicker">Workspace</span>
+          <strong>{% block page_title %}Dashboard{% endblock %}</strong>
+        </div>
+        <div class="topbar-actions">
+          <button class="icon-button theme-toggle" type="button" aria-label="Toggle theme">☾</button>
+          <button class="icon-button notification-button" type="button" aria-label="Notifications">◌<span class="notification-dot"></span></button>
+          <a class="profile-link" href="{{ url_for('profile') }}"><span class="avatar small">{{ current_user.name[:1]|upper }}</span><span>{{ current_user.name }}</span></a>
+        </div>
+      </header>
+      <main class="page-content">{% block content %}{% endblock %}</main>
+    </div>
+  </div>
+  {% else %}
+  <main class="auth-page">{% block auth_content %}{% endblock %}</main>
+  {% endif %}
+  <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
